@@ -3,18 +3,41 @@
 <head>
 <title>Page Title</title>
 <style>
-    body {background-color: red;}
-
+    *{
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(120deg, #2980b9, grey);
+        height: 100vh;
+        overflow: hidden;
+    }
+    .center{
+        position: absolute;
+        top:50%;
+        left:50%;
+        width: 200px;
+        height: 200px;
+        transform: translate(-50%,-50%);
+        align-items: center;
+        border: black;
+        border-radius: 20px;
+    }
+    .center form{
+        position: relative;
+        top: 40%;
+        font-size: 20px;
+    }
             
 </style>
 </head>
 <body>
-
+<div class="center">
 <form action="/" class="formlogin">
-BEM VINDO {{ username }}
+O usuario {{ username }}
+
 
 
 </form>
+</div>
 
 </body>
 </html> 
