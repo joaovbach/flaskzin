@@ -3,19 +3,55 @@
 <head>
 <title>Page Title</title>
 <style>
-    body {background-color: red;}
+    body{
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(120deg, #559fcf, #12c52a);
+        height: 100vh;
+        overflow: hidden;
+    }
+    section{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 500px;
+        height:500px;
+        background: white;
+        border-radius: 10px;
+    }
+textarea{
+   height:20px;
+   width:80%;
+}
+.formlogin ul{
+   display:box;
+}
+.formlogin ul li{
+   margin:20px;
+}
+
+
 
             
 </style>
 </head>
 <body>
 
-<form action="/finishregister" class="formlogin">
-<textarea name="name" id="name" cols="30" rows="10">NAME</textarea>
-<button>SUBMIT</button>
-
-
-</form>
+    <section>
+        <form action="/finishregister" class="formlogin">
+           <ul>
+              <li><textarea name="name" id="name" cols="30" rows="10"></textarea></li>
+                 <li><textarea name="email" id="name" cols="30" rows="10"></textarea></li>
+                 <li><textarea name="senha" id="name" cols="30" rows="10"></textarea></li>
+                 <li><textarea name="confirm" id="name" cols="30" rows="10"></textarea></li>
+           </ul>
+        <button>SUBMIT</button>
+        <a>{{ resul }}</a>
+        
+        
+        </form>
+        </section>
 
 </body>
 </html> 

@@ -108,6 +108,9 @@
     .signup a:hover{
         text-decoration: underline;
     }
+    .forgot a{
+        color: red;
+    }
             
 </style>
 </head>
@@ -121,14 +124,15 @@
             <label>username</label>
         </div>
         <div class="txt_field">
-            <input type="text" class="passw" name="password" required>
+            <input type="text" class="passw" name="password" autocomplete="" required>
             <span></span>
             <label>password</label>
         </div>
-        <div class="forgot">esqueceu a senha?</div>
+        <div class="forgot">esqueceu a senha?<a> {{ txt }} </a></div>
+        <p><a href="{{ url_for('register') }}">Registrar</a></p>
         <input type="submit" value="login">
         <div class="signup">
-            se inscreva {{ txt }}<a href="#">signup</a>
+            se inscreva<a href="#">signup</a>
 
         </div>
     </form>

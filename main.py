@@ -1,75 +1,70 @@
 from requests import request
 from flask import Flask, render_template, request, jsonify, url_for, redirect, sessions
 import sqlite3
+import os
 
 app = Flask(__name__)
 jaTentou = False
-condicao = "dsa"
+app.config['TESTE'] = ""
+app.config['confirmaSenha']=""
 
-def pegaUser(name):
+def pegaUser(name,pas):
     with sqlite3.connect("banco.db")as con:
         cur = con.cursor()
-        senha = cur.execute("SELECT pass FROM accounts WHERE username='"+str(name)+"'").fetchall()
+        newname = "'"+pas+"'"
+        txtSQL = "SELECT username FROM accounts WHERE pass =" + newname
+        senha = cur.execute(txtSQL).fetchall()
         if len(senha)>0:
             return True
         else:
             return False
 
-def registerUser(name):
+def registerUser(name,senha):
     print(name)
     with sqlite3.connect("banco.db") as con:
         cur = con.cursor()
-        cur.execute("INSERT INTO accounts VALUES ("+"'"+str(name)+"','123','false')")
+        cur.execute(f"INSERT INTO accounts VALUES ('{name}','{senha}','false')")
         con.commit()
-
-def testee():
-    date = request.args.get('username',None)
-    var = pegaUser(date)
-    if var:
-        return "existe"
-    else:
-        return "nao existe"
 
 @app.route("/", methods = ['GET', 'POST'])
 def index(*args):
-    
     if request.method == 'GET':
         print("get")
-        
 
+    return render_template('index.html', txt = app.config['TESTE'])
     
-    return render_template('index.html', txt = testee())
     
     
-    #return render_template("index.html")
-
 @app.route("/home")
 def home():
-    #date = request.args.get('username',None)
-    #var = pegaUser(date)
-    #if var:
-        #return render_template("home.html", username = "existe")
-    #else:
-        #return render_template("home.html", username = "nao existe")
-    #testes = 12
-    #return redirect(url_for('/',teste=testes))
 
-    return redirect('/')
+    date = request.args.get('username',None)
+    pas = request.args.get('password',None)
+    var = pegaUser(date,pas)
+    if var:
+        return render_template('home.html')
+    else:
+        app.config['TESTE'] = "senha incorreta"
+        return redirect('/')
+    
 
 @app.route("/register")
 def register():
-    date = request.args.get('username',None)
-    var = pegaUser(date)
-    if var:
-        return redirect('/', txt = "existe")
-    else:
-        return redirect('/', txt = "nao existe")
-    #return redirect('/',)
-    #return render_template("regist.html")
+    return render_template('regist.html')
 
 @app.route("/finishregister")
 def finishRegister():
+    app.config['TESTE'] = ""
     nome = str(request.args.get('name', None))
-    registerUser(nome)
-    return redirect('/')
+    senha = str(request.args.get('senha',None))
+    conf = str(request.args.get('confirm',None))
+
+    if senha == conf:
+         registerUser(nome,senha)
+         app.config['confirmaSenha'] = ""
+         return redirect('/')
+    else:
+        app.config['confirmaSenha'] = "senhas incorretas"
+        return render_template('regist.html',resul = app.config['confirmaSenha'])
+
 
